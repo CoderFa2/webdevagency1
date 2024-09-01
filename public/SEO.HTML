@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEO Check Landing Page</title>
+    <link rel="canonical" href="https://webdevagency.nl">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f9fafb;
+            font-family: 'Inter', sans-serif;
+            color: #1f2937;
+        }
+     
+        .highlight {
+            position: relative;
+            display: inline-block;
+            color: #0073e6;
+            font-weight: bold;
+        }
+
+        .highlight svg {
+            position: absolute;
+            left: 0;
+            bottom: -0.5em;
+            height: 0.6em;
+            width: 100%;
+            fill: #e0f2fe;
+            z-index: -1;
+        }
+
+        .form-container {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 2rem;
+            max-width: 800px;
+            width: 100%;
+            margin: 2rem auto;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .input-field {
+            background: #f9fafb;
+            border-radius: 8px;
+            border: 1px solid #d1d5db;
+            padding: 1rem;
+            width: 100%;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            margin-bottom: 1rem;
+            font-size: 1rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .input-field:focus {
+            border-color: #0073e6;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(0, 115, 230, 0.1);
+        }
+
+        .submit-button {
+            background: #0073e6;
+            border: none;
+            border-radius: 8px;
+            color: #ffffff;
+            padding: 0.9rem;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+            width: 100%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .submit-button:hover {
+            background: #005bb5;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .success-message {
+            display: none;
+            background: #e6ffed;
+            color: #047857;
+            padding: 1rem;
+            border-radius: 4px;
+            margin-top: 1rem;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 600px;
+            padding: 1rem;
+            margin-top: 3rem;
+        }
+
+        .text-gray {
+            color: #4b5563;
+            text-align: justify;
+            line-height: 1.8;
+        }
+    </style>
+</head>
+
+<body>
+    <main class="flex flex-col items-center justify-center text-center px-4 mt-20">
+        <div class="container">
+            <h1 class="text-4xl font-bold tracking-tight">
+                Krijg nu een Gratis <span class="highlight">SEO Check
+                    <svg aria-hidden="true" viewBox="0 0 418 42" class="absolute bottom-0 left-0 h-[0.5em] w-full"
+                        preserveAspectRatio="none">
+                       
+                    </svg>
+                </span>
+                Voor Je Website
+            </h1>
+            <p class="mt-6 text-lg text-gray">
+                Dit rapport beoordeelt je website op basis van de kracht van verschillende SEO-factoren, zoals On-Page Optimalisatie, Off-Page Optimalisatie, technische SEO,en gebruikerservaring.Het verbeteren van je score zal er over het algemeen voor zorgen dat je website beter presteert voor gebruikers en hoger scoort in zoekmachines.
+            </p>
+        </div>
+
+        <!-- Form Section -->
+        <div class="form-container mt-10">
+            <h2 class="text-xl font-semibold text-gray-900 mb-4">Claim nu je gratis Seo Check</h2>
+            <form id="seoCheckForm" action="https://formspree.io/f/xpzgqwgd" method="POST" class="w-full">
+                <input type="email" id="email" name="email" class="input-field" placeholder="Enter je e-mailadres" required>
+                <input type="url" id="website" name="website" class="input-field" placeholder="Enter je website-url"
+                    required>
+                <button type="submit" class="submit-button">Claim Seo Check</button>
+            </form>
+            <div id="successMessage" class="success-message">
+                Thank you! You'll receive your SEO check within 24 hours in your inbox.
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.getElementById('seoCheckForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+            const form = event.target;
+
+            fetch(form.action, {
+                method: form.method,
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    email: form.email.value,
+                    website: form.website.value
+                })
+            })
+                .then(response => response.ok ? response : Promise.reject(response))
+                .then(() => {
+                    document.getElementById('successMessage').style.display = 'block';
+                    form.reset();
+                })
+                .catch(() => alert('There was an error. Please try again.'));
+        });
+    </script>
+</body>
+
+</html>

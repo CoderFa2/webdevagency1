@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Dashboard</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    .sidebar {
+      transition: all 0.3s ease;
+    }
+    .sidebar-collapsed {
+      width: 64px;
+    }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@1.24.0/dist/umd/supabase.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const SUPABASE_URL = 'https://krndmqvrlwjzngyipyjh.supabase.co';
+      const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtybmRtcXZybHdqem5neWlweWpoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjIwMTA5ODMsImV4cCI6MjAzNzU4Njk4M30.0u67HaQt4Ya_r1mMuLui9RAAs-Xzc231cDMhGNMO3NE';
+      const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+      async function fetchProfile() {
+        const user = supabase.auth.user();
+        if (!user) {
+          window.location.href = 'login.html';
+          return;
+        }
+
+        const { data: profile, error } = await supabase
+          .from('profiles')
+          .select('*')
+          .eq('id', user.id)
+          .single();
+
+        if (error) {
+          alert('Fout bij het ophalen van profielgegevens');
+          return;
+        }
+
+        document.getElementById('username').textContent = profile.name;
+        document.getElementById('subscription').textContent = profile.subscription;
+      }
+
+      fetchProfile();
+    });
+  </script>
+</head>
+<body class="bg-gray-100 font-sans leading-normal tracking-normal">
+  <div class="flex">
+    <!-- Sidebar -->
+    <aside id="sidebar" class="sidebar bg-gray-800 text-white w-64 min-h-screen flex flex-col p-4">
+      <div class="mb-4">
+        <h2 class="text-lg font-semibold">Navigatie</h2>
+        <ul>
+          <li class="mt-2">
+            <a href="#" class="flex items-center p-2 hover:bg-gray-700 rounded">
+              <span class="ml-4">Dashboard</span>
+            </a>
+          </li>
+          <li class="mt-2">
+            <a href="#" class="flex items-center p-2 hover:bg-gray-700 rounded">
+              <span class="ml-4">Packages</span>
+            </a>
+          </li>
+          <li class="mt-2">
+            <a href="#" class="flex items-center p-2 hover:bg-gray-700 rounded">
+              <span class="ml-4">Instellingen</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div class="mt-auto">
+        <button id="toggleSidebar" class="bg-blue-600 w-full py-2 rounded text-white">Toggle Sidebar</button>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 p-6">
+      <div class="container mx-auto">
+        <h1 class="text-4xl font-bold mb-6">Welcome to your Dashboard, <span id="username"></span>!</h1>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div class="bg-white p-4 rounded-lg shadow-md">
+            <h2 class="text-2xl font-semibold mb-4">Current Subscription</h2>
+            <p class="text-gray-700">Package: <span id="subscription"></span></p>
+          </div>
+          <!-- Add more content sections as needed -->
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- JavaScript -->
+  <script>
+    document.getElementById('toggleSidebar').addEventListener('click', function() {
+      const sidebar = document.getElementById('sidebar');
+      sidebar.classList.toggle('sidebar-collapsed');
+    });
+  </script>
+</body>
+</html>

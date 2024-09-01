@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Adventure Test - Step 1</title>
+  <style>
+    main {
+      text-align: center;
+      background: #F0F0F0;
+      padding: 2rem;
+    }
+
+    .welcome-section {
+      padding: 2rem;
+      background-color: #FFFFFF;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      margin: 2rem auto;
+      max-width: 800px;
+    }
+
+    h1, p {
+      color: #000000;
+      margin-bottom: 1rem;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      font-weight: bold;
+    }
+
+    p {
+      line-height: 1.6;
+      font-size: 1.4rem;
+    }
+
+    .welcome-section a.label {
+      display: inline-block;
+      background-color: #000;
+      color: white;
+      padding: 1rem 2.5rem;
+      border-radius: 20px;
+      font-size: 1.2rem;
+      text-decoration: none;
+      margin-top: 1rem;
+      position: relative;
+      white-space: nowrap;
+    }
+
+    .welcome-section a.label:hover {
+      background-color: #444;
+    }
+
+    .product-gallery {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      max-width: 100%;
+      overflow: hidden;
+    }
+
+    .carousel {
+      display: flex;
+      width: 100%;
+      overflow: hidden;
+    }
+
+    .carousel-track {
+      display: flex;
+      transition: transform 0.5s ease;
+      width: calc(100% * 2); /* Width enough to hold two sets for continuous scrolling */
+    }
+
+    .product-item {
+      min-width: 33.33%; /* Show 3 items at a time */
+      box-sizing: border-box;
+      padding: 10px;
+      background-color: #fff;
+      border-radius: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    .product-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 5px;
+    }
+
+    @media (max-width: 768px) {
+      .product-item {
+        min-width: 50%; /* Show 2 items at a time */
+      }
+      .welcome-section h1 {
+        font-size: 1.5rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .product-item {
+        min-width: 100%; /* Show 1 item at a time */
+      }
+      .welcome-section h1 {
+        font-size: 1.2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <section class="welcome-section">
+      <h1>Welcome to the Adventure Test.</h1>
+      <p>At Explorer's Mindset, we understand that every adventure is unique, and so are your gear needs. Our Adventure Test is designed to tailor recommendations specifically for you, ensuring you are perfectly equipped for your next journey.</p>
+      <p>The Adventure Test guides you through a series of questions about your upcoming adventure, including the type of trip, destination, duration, climate, activity level, and companions. After answering just 5 questions, you'll ensure that you're prepared for your next adventure!</p>
+      <a href="https://www.explorers-mindset.com/pages/testpagina-2" class="label">Take the Test</a>
+    </section>
+    <section class="product-gallery">
+      <div class="carousel">
+        <div class="carousel-track">
+          <!-- Top row items -->
+        </div>
+      </div>
+      <div class="carousel">
+        <div class="carousel-track">
+          <!-- Bottom row items -->
+        </div>
+      </div>
+    </section>
+  </main>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const products = [
+        { name: 'Portable Toilet', img: 'https://via.placeholder.com/200x150?text=Portable+Toilet' },
+        { name: 'Pop-up Privacy Tent', img: 'https://via.placeholder.com/200x150?text=Privacy+Tent' },
+        { name: 'Emergency Glow Sticks', img: 'https://via.placeholder.com/200x150?text=Glow+Sticks' },
+        { name: 'Camping Chair with Canopy', img: 'https://via.placeholder.com/200x150?text=Camping+Chair' },
+        { name: 'Portable Camping Oven', img: 'https://via.placeholder.com/200x150?text=Camping+Oven' },
+        { name: 'Explorer’s Tee v1', img: 'https://via.placeholder.com/200x150?text=Explorer’s+Tee' },
+        { name: 'Drink Backpack', img: 'https://via.placeholder.com/200x150?text=Drink+Backpack' },
+        { name: 'Explorer’s Hoodie', img: 'https://via.placeholder.com/200x150?text=Explorer’s+Hoodie' },
+        { name: 'Explorer’s Sweater', img: 'https://via.placeholder.com/200x150?text=Explorer’s+Sweater' },
+        { name: 'Explorer’s Bucket Hat', img: 'https://via.placeholder.com/200x150?text=Bucket+Hat' },
+        { name: 'Emergency Tent', img: 'https://via.placeholder.com/200x150?text=Emergency+Tent' }
+      ];
+
+      const $sliderTop = document.querySelector('.carousel:nth-child(1) .carousel-track');
+      const $sliderBottom = document.querySelector('.carousel:nth-child(2) .carousel-track');
+
+      // Populate the top row
+      products.slice(0, Math.ceil(products.length / 2)).forEach(product => {
+        $sliderTop.innerHTML += `
+          <div class="product-item">
+            <img src="${product.img}" alt="${product.name}">
+          </div>`;
+      });
+
+      // Populate the bottom row
+      products.slice(Math.ceil(products.length / 2)).forEach(product => {
+        $sliderBottom.innerHTML += `
+          <div class="product-item">
+            <img src="${product.img}" alt="${product.name}">
+          </div>`;
+      });
+
+      // Duplicate items for infinite scrolling effect
+      $sliderTop.innerHTML += $sliderTop.innerHTML;
+      $sliderBottom.innerHTML += $sliderBottom.innerHTML;
+
+      let topPosition = 0;
+      let bottomPosition = 0;
+      const slideWidth = document.querySelector('.product-item').offsetWidth;
+
+      function moveCarousel() {
+        topPosition -= 1;
+        bottomPosition += 1;
+
+        if (Math.abs(topPosition) >= slideWidth * Math.ceil(products.length / 2)) {
+          topPosition = 0;
+        }
+        if (bottomPosition >= slideWidth * Math.ceil(products.length / 2)) {
+          bottomPosition = 0;
+        }
+
+        $sliderTop.style.transform = `translateX(${topPosition}px)`;
+        $sliderBottom.style.transform = `translateX(${bottomPosition}px)`;
+
+        requestAnimationFrame(moveCarousel);
+      }
+
+      moveCarousel();
+    });
+  </script>
+</body>
+</html>
