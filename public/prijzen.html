@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elite Vastgoed Web Agency</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #000000;
+            color: #ffffff;
+        }
+        .hero-text {
+            font-size: clamp(3rem, 8vw, 5rem);
+            line-height: 1.1;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+        .subtitle {
+            font-size: clamp(1rem, 3vw, 1.25rem);
+            font-weight: 300;
+            letter-spacing: 0.05em;
+        }
+        .scroll-indicator {
+            width: 30px;
+            height: 50px;
+            border: 2px solid #ffffff;
+            border-radius: 25px;
+            position: relative;
+        }
+        .scroll-indicator::before {
+            content: '';
+            position: absolute;
+            top: 8px;
+            left: 50%;
+            width: 6px;
+            height: 6px;
+            background: #ffffff;
+            border-radius: 50%;
+            transform: translateX(-50%);
+            animation: scrollDown 2s infinite;
+        }
+        @keyframes scrollDown {
+            0% { top: 8px; opacity: 0; }
+            30% { opacity: 1; }
+            60% { opacity: 1; }
+            100% { top: 32px; opacity: 0; }
+        }
+          .sticky-nav {
+            position: sticky;
+            top: 0;
+            transition: background-color 0.3s ease-in-out;
+        }
+        .sticky-nav.scrolled {
+            background-color: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+        }
+        .proces-stap {
+        opacity: 0;
+        transform: translateX(-20px);
+        transition: all 0.6s ease-out;
+    }
+    .proces-stap.visible {
+        opacity: 1;
+        transform: translateX(0);
+    }
+    .proces-stap:hover .border-l-4 {
+        border-left-width: 8px;
+        transition: border-left-width 0.3s ease;
+    }
+    .proces-stap .flex:hover .w-2 {
+        transform: scale(1.5);
+        transition: transform 0.3s ease;
+    }
+    .dienst-item {
+        transition: transform 0.3s ease;
+    }
+    .dienst-item:hover {
+        transform: translateY(-5px);
+    }
+    .dienst-item a {
+        display: inline-block;
+        margin-top: 10px;
+        font-weight: bold;
+    }
+
+
+
+
+
+ 
+        /* Algemene styling voor de navbar */
+.navbar {
+    padding: 20px 30px;
+    z-index: 999;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* Styling voor de navigatie-items */
+.navbar ul {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    color:#1e40af;
+}
+
+.navbar ul li {
+    list-style-type: none;
+    padding: 4px 20px;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: 0.1s linear;
+    color: #1e40af;;
+}
+
+.navbar ul li a {
+    text-decoration: none;
+    color: #1e40af;/* Standaard tekstkleur */
+    font-weight: 500;
+}
+
+.navbar ul li a:hover {
+    color: #2563eb; /* Kleur bij hover */
+}
+
+/* Navigatielinks Standaard Kleur */
+.navMenu li a {
+    color: #ffffff !important; /* Witte kleur voor alle navigatielinks */
+    text-decoration: none; /* Verwijder onderstreping */
+}
+
+/* Hover Kleur voor Navigatielinks */
+.navMenu li:hover a {
+    color: #e0e0e0 !important; /* Subtiel grijs voor hover */
+    text-decoration: underline; /* Eventueel een onderstreping toevoegen bij hover voor visueel contrast */
+}
+
+/* Zorg ervoor dat de hover niet verdwijnt op kleine schermen */
+@media (max-width: 768px) {
+    .navMenu li a {
+        color: #ffffff !important; /* Zorg dat op kleine schermen het wit blijft */
+    }
+}
+
+
+/* Verbergen van het menu-icoon op grotere schermen */
+.menuIcon {
+    height: 50px;
+    display: none;
+    cursor: pointer;
+}
+
+/* Mobiele menu-styling */
+@media (max-width: 768px) {
+  .navbar ul {
+    display: none; /* Verberg het menu standaard op mobiele schermen */
+  }
+
+  .navbar ul.navMenu.active {
+    display: flex; /* Toon het menu als het actief is */
+    flex-direction: column;
+    background-color: rgba(0, 0, 0, 0.85); /* Diep zwart met een vleugje transparantie voor een stijlvolle look */
+    width: 90%; /* Zorg dat het iets minder breed is, voor een eleganter effect */
+    max-width: 400px; /* Stel een maximum breedte in voor uniformiteit */
+    position: fixed; /* Zorg ervoor dat het menu op een vaste plek blijft bij scrollen */
+    top: 70px; /* Zet het menu direct onder de navbar */
+    left: 50%; /* Plaats het horizontaal in het midden */
+    transform: translateX(-50%); /* Centreer het menu precies */
+    padding: 20px 30px; /* Gebruik een comfortabele padding */
+    border-radius: 12px; /* Geef het menu zachtere, grotere afgeronde hoeken */
+    border: 1px solid rgba(255, 255, 255, 0.2); /* Een subtiele witte rand voor een verfijnde touch */
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5); /* Geef het menu een diepere en zachtere schaduw */
+    z-index: 100; /* Zorg dat het menu altijd boven andere elementen staat */
+    transition: all 0.5s ease-in-out; /* Voeg een zachtere, langere overgang toe voor een elegante animatie */
+}
+
+.navbar ul.navMenu.active li {
+    margin: 15px 0; /* Zorg voor wat ruimte tussen de menu-items */
+    text-align: center; /* Centreer de tekst van elk menu-item */
+    transition: transform 0.3s ease; /* Voegt een lichte schaalanimatie toe bij interactie */
+}
+
+.navbar ul.navMenu li a {
+    color: #ffffff; /* Witte tekst voor duidelijkheid */
+    font-weight: 600; /* Gebruik een iets zwaardere dikte voor een premium uitstraling */
+    font-size: 1.1rem; /* Iets grotere lettergrootte voor leesbaarheid */
+    text-decoration: none; /* Verwijder onderlijnen */
+    padding: 12px 0; /* Voeg wat meer ruimte boven en onder de tekst toe */
+    border-radius: 6px; /* Maak de menu items iets ronder */
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease; /* Voeg een lichte overgang toe voor een fijnere animatie */
+}
+
+.navbar ul.navMenu li a:hover {
+    background-color: rgba(255, 255, 255, 0.1); /* Gebruik een lichte achtergrondkleur voor de hover state */
+    color: #e0e0e0; /* Gebruik een iets lichtere tint van wit voor de hover state */
+    transform: scale(1.05); /* Iets vergroten om interactie aan te geven */
+}
+
+/* Verberg de hamburger icon en menu standaard op desktop */
+@media (min-width: 769px) {
+    .menuIcon {
+        display: none;
+    }
+
+    .navMenu {
+        display: flex; /* Zorg ervoor dat het menu altijd zichtbaar is op desktop */
+        flex-direction: row;
+        background-color: transparent; /* Geen achtergrondkleur voor desktop */
+        position: static;
+        transform: none;
+        box-shadow: none;
+    }
+
+    .navMenu li {
+        margin: 0 15px; /* Extra ruimte tussen de menu-items */
+    }
+
+    .navMenu li a {
+        color: #ffffff; /* Witte kleur voor desktop */
+        font-size: 1rem; /* Normale grootte op desktop */
+    }
+
+    .navMenu li:hover a {
+        color: #f8f8f8; /* Gebruik een lichtere kleur voor hover op desktop */
+    }
+}
+
+/* Mobiele menu-styling */
+@media (max-width: 768px) {
+    .navbar ul.navMenu {
+        display: none; /* Verberg het menu standaard op mobiele schermen */
+    }
+
+    .navbar ul.navMenu.active {
+        display: flex; /* Toon het menu als het actief is */
+        flex-direction: column;
+        width: 85%; /* Iets kleinere breedte voor elegantie */
+        max-width: 350px; /* Behoud een maximale breedte voor consistentie */
+        background-color: rgba(0, 0, 0, 0.9); /* Bijna zwarte achtergrond met een vleugje transparantie */
+    }
+
+    .menuIcon {
+        display: block; /* Toon het hamburger-icoon op mobiele schermen */
+    }
+
+    .navbar ul.navMenu li a {
+        color: #ffffff; /* Witte tekstkleur voor betere leesbaarheid */
+        font-weight: 500; /* Iets dunnere stijl voor elegantie */
+    }
+
+    .navbar ul.navMenu li:hover a {
+        background-color: rgba(255, 255, 255, 0.1); /* Subtiele witte overlay voor hover */
+        transform: translateY(-2px); /* Een lichte verschuiving omhoog voor visueel accent */
+    }
+}
+
+/* Styling voor de hamburger-icoon om hem mooier te maken */
+.menuIcon {
+    width: 40px; /* Grootte aanpassen voor eleganter gevoel */
+    height: 40px; /* Zorg dat de grootte in verhouding blijft */
+    filter: brightness(0) invert(1); /* Zorg dat de kleur wit is */
+    transition: transform 0.3s ease; /* Animatie bij klikken */
+}
+
+.menuIcon:hover {
+    transform: rotate(90deg); /* Een lichte rotatie voor visuele interactie */
+}
+
+
+
+
+
+/* Verberg de hamburger icon en menu standaard op desktop */
+@media (min-width: 769px) {
+    .menuIcon {
+        display: none;
+    }
+
+    .navMenu {
+        display: flex; /* Zorg ervoor dat het menu altijd zichtbaar is op desktop */
+        flex-direction: row;
+        background-color: transparent; /* Geen achtergrondkleur voor desktop */
+        position: static;
+        transform: none;
+        box-shadow: none;
+    }
+
+    .navMenu li {
+        margin: 0 10px;
+    }
+
+    .navMenu li a {
+        color: #ffffff; /* Witte kleur voor desktop */
+    }
+
+    .navMenu li:hover a {
+        color: #cccccc; /* Gebruik een lichtere kleur voor hover op desktop */
+    }
+}
+/* Mobiele menu-styling */
+@media (max-width: 768px) {
+    .navbar ul.navMenu {
+        display: none; /* Verberg het menu standaard op mobiele schermen */
+    }
+
+    .navbar ul.navMenu.active {
+        display: flex; /* Toon het menu als het actief is */
+        flex-direction: column;
+        width: 85%; /* Iets kleinere breedte voor elegantie */
+        max-width: 350px; /* Behoud een maximale breedte voor consistentie */
+        background-color: rgba(0, 0, 0, 0.9); /* Bijna zwarte achtergrond met een vleugje transparantie */
+    }
+
+    .menuIcon {
+        display: block; /* Toon het hamburger-icoon op mobiele schermen */
+    }
+
+    .navbar ul.navMenu li a {
+        color: #ffffff; /* Witte tekstkleur voor betere leesbaarheid */
+        font-weight: 500; /* Iets dunnere stijl voor elegantie */
+    }
+
+    .navbar ul.navMenu li:hover a {
+        background-color: rgba(255, 255, 255, 0.1); /* Subtiele witte overlay voor hover */
+        transform: translateY(-2px); /* Een lichte verschuiving omhoog voor visueel accent */
+    }
+}
+
+/* Styling voor de hamburger-icoon om hem mooier te maken */
+.menuIcon {
+    width: 40px; /* Grootte aanpassen voor eleganter gevoel */
+    height: 40px; /* Zorg dat de grootte in verhouding blijft */
+    filter: brightness(0) invert(1); /* Zorg dat de kleur wit is */
+    transition: transform 0.3s ease; /* Animatie bij klikken */
+}
+
+
+
+  .navbar ul.navMenu li {
+    margin: 10px 0;
+    text-align: center;
+  }
+
+  .navbar ul.navMenu li a {
+    color: #ffffff; /* Witte tekstkleur voor betere leesbaarheid */
+  }
+
+  .navbar ul.navMenu li:hover a {
+    color: #d1d5db; /* Lichtere kleur bij hover */
+  }
+
+  .menuIcon {
+    display: block; /* Toon het hamburger-icoon op mobiele schermen */
+  }
+}
+.navMenu {
+        max-height: 0; /* Standaard verborgen */
+        overflow: hidden;
+        opacity: 0; 
+        visibility: hidden;
+        transition: all 0.5s ease-in-out;
+    }
+
+    .navMenu.active {
+        max-height: 500px; /* Ruimte genoeg voor het hele menu */
+        opacity: 1;
+        visibility: visible;
+    }
+    
+    @media (min-width: 768px) {
+        /* Voor grotere schermen moet het menu altijd zichtbaar zijn */
+        .navMenu {
+            max-height: none;
+            opacity: 1;
+            visibility: visible;
+        }
+    }
+
+      /* Media query voor kleinere schermen */
+    @media (max-width: 768px) {
+        main {
+            margin-top: -55px; /* Verminder de ruimte tussen navbar en de hero-sectie op kleine schermen */
+        }
+    }
+
+    .text-center {
+    text-align: center; /* Centreert de tekst */
+}
+
+.mb-12 {
+    margin-bottom: 3rem; /* Zorgt voor voldoende ruimte onder de tekst */
+}
+
+.text-lg {
+    font-size: 1.25rem; /* Basislettergrootte voor grotere schermen */
+    line-height: 1.5; /* Zorgt voor een goede regelhoogte */
+    padding: 0 15px; /* Voeg padding toe voor extra ruimte aan de zijkanten */
+}
+
+@media (max-width: 768px) {
+    .text-lg {
+        font-size: 1.125rem; /* Verklein de lettergrootte voor kleinere schermen */
+        margin-bottom: 2rem; /* Pas de ondermarge aan voor kleinere schermen */
+    }
+}
+
+@media (max-width: 480px) {
+    .text-lg {
+        font-size: 1rem; /* Nog kleinere lettergrootte voor mobiele apparaten */
+        margin-bottom: 1.5rem; /* Pas de ondermarge verder aan */
+    }
+}
+
+    </style>
+</head>
+
+
+ <!-- Navbar -->
+ <header class="z-10 ">
+    <nav class="navbar  bg-transparent flex items-center justify-between">
+        <div class="topBar flex items-center justify-between w-full md:w-auto">
+            <div class="flex justify-start -mt-4" style="margin-left: -95px;">
+                <img src="images/playstore.png" alt="Web Dev Agency Logo" class="h-24 w-64 object-contain" style="margin-left: -10px;">
+              </div>
+              
+              
+              
+              
+            <img src="Images/white.png" alt="menu" class="menuIcon cursor-pointer md:hidden" id="menuIcon">
+        </div>
+        <ul class="navMenu flex-col md:flex-row md:flex md:items-center hidden md:flex w-full md:w-auto" id="navMenu">
+            <li class="hover:tracking-widest my-2 md:my-0 md:mx-4">
+                <a href="index.html" class="underline-none hover:underline-offset-8 hover:underline font-medium text-sm text-gray-400">Home</a>
+            </li>
+            <li class="hover:tracking-widest my-2 md:my-0 md:mx-4">
+                <a href="diensten.html" class="underline-none hover:underline-offset-8 hover:underline font-medium text-sm text-gray-400">Diensten</a>
+            </li>
+            <li class="hover:tracking-widest my-2 md:my-0 md:mx-4">
+                <a href="prijzen.html" class="underline-none hover:underline-offset-8 hover:underline font-medium text-sm text-gray-400">Prijzen</a>
+            </li>
+            <li class="hover:tracking-widest my-2 md:my-0 md:mx-4">
+                <a href="contact.html" class="underline-none hover:underline-offset-8 hover:underline font-medium text-sm text-gray-400">Contact</a>
+            </li>
+        </ul>
+                  
+    </nav>
+
+
+    <main class="flex-grow flex items-center py-20 sm:py-0 pt-24">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16">
+                <div class="lg:col-span-7">
+                    <h2 class="hero-text mb-6 sm:mb-8" id="heroText">
+                        Transparante Prijzen voor Kwaliteit
+                    </h2>
+                    <p class="subtitle mb-8 sm:mb-12 max-w-2xl">
+                        Bij Web Dev Agency voor Makelaars bieden we duidelijke en eerlijke prijsstructuren voor onze diensten. 
+                        Onze pakketten zijn ontworpen om aan uw specifieke behoeften te voldoen, zodat u de beste waarde krijgt voor uw investering.
+                    </p>
+                </div>
+                <div class="lg:col-span-5 flex items-end">
+                    <p class="subtitle">
+                        Ontdek onze op maat gemaakte <strong>webontwikkeling</strong>, <strong>SEO-optimalisatie</strong> en <strong>marketingpakketten</strong>. 
+                        Elk pakket is zorgvuldig samengesteld om uw online aanwezigheid te versterken en uw bedrijf te laten groeien, zonder verrassingen achteraf.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </main>
+    <div class="py-6 bg-black bg-opacity-50 backdrop-blur-md">
+        <div class="container mx-auto px-4 flex flex-col items-center">
+            <div class="scroll-indicator mb-4"></div>
+            <p class="text-sm uppercase tracking-widest mb-4">Scroll voor meer</p>
+        </div>
+    </div>
+
+   </svg>
+   <section id="Pakketten" class="py-20 bg-black">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<!-- Inleidende Tekst -->
+<p class="text-lg text-white mb-12 text-center mx-auto max-w-2xl">
+    Bij Web Dev Agency bieden we makelaars verschillende pakketten aan die zijn ontworpen om aan de unieke behoeften van jouw bedrijf te voldoen.
+    Of je nu een startende ondernemer bent of een gevestigd bedrijf dat zijn online aanwezigheid wil verbeteren, wij hebben het juiste pakket voor jou.
+</p>
+
+
+
+
+    <!-- Pakketten Sectie -->
+<section id="Pakketten" class="py-20 bg-black">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <h2 class="text-4xl font-extrabold text-white sm:text-5xl">Pakketten</h2>
+            <p class="mt-4 text-xl text-white">Kies het pakket dat past bij jouw zakelijke ambities.</p>
+        </div>
+
+        <!-- Grid met 1 kolom op mobiel, 2 kolommen op medium schermen en 3 kolommen op grote schermen -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            
+            <!-- Growth Plan -->
+            <div class="flex flex-col p-8 bg-black border border-gray-700 rounded-lg transition-transform transform hover:scale-105 max-w-xs mx-auto lg:max-w-none">
+                <div class="mb-8">
+                    <h3 class="text-2xl font-semibold text-white">Growth</h3>
+                    <p class="mt-4 text-white">Ideaal voor kleine bedrijven die meer prestaties zoeken.</p>
+                </div>
+                <div class="mb-8">
+                    <span class="text-5xl font-extrabold text-white">2000</span>
+                    <span class="text-xl font-medium text-white">p/m</span>
+                </div>
+                <ul class="mb-8 space-y-4 text-white">
+                    <li class="flex items-center">
+                        <svg class="h-6 w-6 text-green-500 mr-2 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        <span>Comprehensive Website Audit</span>
+                    </li>
+                    <li class="flex items-center">
+                        <svg class="h-6 w-6 text-green-500 mr-2 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        <span>Lokale SEO Optimalisatie</span>
+                    </li>
+                    <li class="flex items-center">
+                        <svg class="h-6 w-6 text-green-500 mr-2 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        <span>Zoekwoordoptimalisatie</span>
+                    </li>
+                    <li class="flex items-center">
+                        <svg class="h-6 w-6 text-green-500 mr-2 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        <span>Inhoudsverbetering</span>
+                    </li>
+                    <li class="flex items-center">
+                        <svg class="h-6 w-6 text-green-500 mr-2 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        <span>Link Building</span>
+                    </li>
+                    <li class="flex items-center">
+                        <svg class="h-6 w-6 text-green-500 mr-2 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        <span>16 Posts per maand</span>
+                    </li>
+                    <li class="flex items-center">
+                        <svg class="h-6 w-6 text-green-500 mr-2 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        <span>4 Reëls per maand</span>
+                    </li>
+                    <li class="flex items-center">
+                        <svg class="h-6 w-6 text-green-500 mr-2 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        <span>2 blog per maand</span>
+                    </li>
+                    <li class="flex items-center">
+                        <svg class="h-6 w-6 text-green-500 mr-2 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        <span>2 Campagnes + Retargeting, A/B Testing</span>
+                    </li>
+                    <li class="flex items-center">
+                        <svg class="h-6 w-6 text-green-500 mr-2 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        <span>Performance Tracking</span>
+                    </li>
+                </ul>
+                <div class="text-center mt-auto text-white font-bold border-2 border-white rounded-lg p-4 inline-block">
+                    <a href="https://calendly.com/webdevagency/gratis-web-development-advies" class="text-white w-full">
+                        Start Nu
+                    </a>
+                </div>                
+            </div>
+
+            <!-- Premium Plan -->
+            <div class="flex flex-col p-8 bg-black border border-gray-700 rounded-lg transition-transform transform hover:scale-105 max-w-xs mx-auto lg:max-w-none">
+                <div class="mb-8">
+                    <h3 class="text-2xl font-semibold text-white">Premium</h3>
+                    <p class="mt-4 text-white">Voor bedrijven die een volledig op maat gemaakte website willen. Inclusief uitgebreide ondersteuning.</p>
+                </div>
+                <div class="mb-8">
+                    <span class="text-5xl font-extrabold text-white">2500</span>
+                    <span class="text-xl font-medium text-white">p/m</span>
+                </div>
+                <ul class="mb-8 space-y-4 text-white">
+                    <li class="flex items-center">
+                        <svg class="h-6 w-6 text-green-500 mr-2 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        <span>Website Development</span>
+                    </li>
+                    <li class="flex items-center">
+                        <svg class="h-6 w-6 text-green-500 mr-2 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        <span>Basis voor Lokale SEO</span>
+                    </li>
+                    <li class="flex items-center">
+                        <svg class="h-6 w-6 text-green-500 mr-2 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        <span>Keyword Research & Implementatie</span>
+                    </li>
+                    <li class="flex items-center">
+                        <svg class="h-6 w-6 text-green-500 mr-2 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        <span>24 insta Posts per maand</span>
+                    </li>
+                    <li class="flex items-center">
+                        <svg class="h-6 w-6 text-green-500 mr-2 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        <span>8 Reëls per maand</span>
+                    </li>
+                    <li class="flex items-center">
+                        <svg class="h-6 w-6 text-green-500 mr-2 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        <span>4 Blog Posts Per Maand</span>
+                    </li>
+                    <li class="flex items-center">
+                        <svg class="h-6 w-6 text-green-500 mr-2 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        <span>Content kalender</span>
+                    </li>
+                    <li class="flex items-center">
+                        <svg class="h-6 w-6 text-green-500 mr-2 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        <span>4 Campagnes + Gedetailleerde Retargeting</span>
+                    </li>
+                    <li class="flex items-center">
+                        <svg class="h-6 w-6 text-green-500 mr-2 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        <span>Link Building</span>
+                    </li>
+                    <li class="flex items-center">
+                        <svg class="h-6 w-6 text-green-500 mr-2 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        <span>Social Media Setup</span>
+                    </li>
+                    <li class="flex items-center">
+                        <svg class="h-6 w-6 text-green-500 mr-2 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        <span>Performance Tracking</span>
+                    </li>
+                </ul>
+                <div class="text-center mt-auto text-white font-bold border-2 border-white rounded-lg p-4 inline-block">
+                    <a href="https://calendly.com/webdevagency/gratis-web-development-advies" class="text-white w-full">
+                        Start Nu
+                    </a>
+                </div>                
+            </div>
+
+            <!-- Hosting & Onderhoud Plan -->
+            <div class="flex flex-col p-8 bg-black border border-gray-700 rounded-lg transition-transform transform hover:scale-105 max-w-xs mx-auto lg:max-w-none">
+                <div class="mb-8">
+                    <h3 class="text-2xl font-semibold text-white">Hosting & Onderhoud</h3>
+                    <p class="mt-4 text-white">Voor bedrijven die betrouwbare hosting en 24/7 onderhoud voor websites en webshops zoeken.</p>
+                </div>
+                <div class="mb-8">
+                    <span class="text-5xl font-extrabold text-white">150</span>
+                    <span class="text-xl font-medium text-white">p/m</span>
+                </div>
+                <ul class="mb-8 space-y-4 text-white">
+                    <li class="flex items-center">
+                        <svg class="h-6 w-6 text-green-500 mr-2 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        <span>Web Domain Hosting</span>
+                    </li>
+                    <li class="flex items-center">
+                        <svg class="h-6 w-6 text-green-500 mr-2 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        <span>24/7 Onderhoud</span>
+                    </li>
+                    <li class="flex items-center">
+                        <svg class="h-6 w-6 text-green-500 mr-2 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        <span>Ondersteuning voor bestaande websites</span>
+                    </li>
+                    <li class="flex items-center">
+                        <svg class="h-6 w-6 text-green-500 mr-2 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        <span>Ondersteuning voor bestaande webshops</span>
+                    </li>
+                </ul>
+                <div class="text-center mt-auto text-white font-bold border-2 border-white rounded-lg p-4 inline-block">
+                    <a href="https://calendly.com/webdevagency/gratis-web-development-advies" class="text-white w-full">
+                        Start Nu
+                    </a>
+                </div>                
+            </div>
+
+        </div>
+    </div>
+</section>
+
+    
+                
+    <footer class="bg-black text-white py-10">
+        <!-- Footer -->
+        <footer class="bg-black text-white border-t border-gray-700 py-12 mt-12">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <!-- Eerste kolom -->
+                    <div>
+                        <h3 class="text-2xl font-bold mb-4">Web Dev Agency</h3>
+                        <p class="text-whitemb-4">Making Your Success Online</p>
+                        <div class="flex space-x-4 mt-4">
+                            <a href="https://linkedin.com/in/fatoumata-barry-825b10287" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-blue-600">
+                                <i class="fab fa-linkedin fa-lg"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <!-- Tweede kolom -->
+                    <div>
+                        <h4 class="text-xl font-semibold mb-4">Quick Links</h4>
+                        <ul class="space-y-2">
+                        <li><a href="index.html" class="hover:text-white text-white">Terug naar Home</a></li>
+                        <li><a href="diensten.html" class="hover:text-white text-white">Bezoek diensten</a></li>
+                        <li><a href="prijzen.html" class="hover:text-white text-white">Zie prijzen</a></li>
+                        <li><a href="contact.html" class="hover:text-white text-white">Neem contact op</a></li>
+                    
+                        </ul>
+                    </div>
+                    <!-- Derde kolom -->
+                    <div>
+                        <h4 class="text-xl font-semibold mb-4">Contact Us</h4>
+                        <p class="text-white mb-4">Heb je vragen? We horen graag van je.</p>
+                        <p class="text-white mt-4">
+                            <i class="fas fa-envelope mr-2"></i> webdevagencyfb@gmail.com
+                        </p>
+                    </div>
+                    <!-- Vierde kolom -->
+                    <div>
+                        <h4 class="text-xl font-semibold mb-4">Abonneer</h4>
+                        <p class="text-white mb-4">Krijg de laatste updates en offers</p>
+                        <form action="https://formspree.io/f/mpwajzgp">
+                            <input type="email" class="w-full p-2 rounded-lg text-gray-900 mb-4 border border-gray-300 focus:outline-none focus:border-blue-500" placeholder="Jouw emailadres" required>
+                            <button type="submit" class="w-full py-2 px-4 bg-white text-black hover:bg-gray-200 rounded-lg font-semibold">Subscribe</button>
+                        </form>
+                    </div>
+                </div>
+                <!-- Scheidingslijn -->
+                <div class="border-t border-gray-700 mt-10 pt-6 text-center">
+                    <p class="text-white">&copy; 2024 Web Dev Agency. All rights reserved.</p>
+                </div>
+            </div>
+        </footer>
+    <script>
+        gsap.from("#heroText", {
+            duration: 1.5,
+            opacity: 0,
+            y: 50,
+            ease: "power3.out",
+            stagger: 0.2
+        });
+
+        // Nieuwe animaties voor proces en testimonials
+        gsap.from("#proces .text-center", {
+            duration: 1,
+            opacity: 0,
+            y: 50,
+            stagger: 0.2,
+            scrollTrigger: {
+                trigger: "#proces",
+                start: "top 80%"
+            }
+        });
+
+        gsap.from("#testimonials .bg-black", {
+            duration: 1,
+            opacity: 0,
+            y: 50,
+            stagger: 0.2,
+            scrollTrigger: {
+                trigger: "#testimonials",
+                start: "top 80%"
+            }
+        });
+
+
+
+        document.addEventListener('DOMContentLoaded', (event) => {
+    const procesStappen = document.querySelectorAll('.proces-stap');
+    
+    const observerOptions = {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.1
+    };
+
+    const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, observerOptions);
+
+    procesStappen.forEach(stap => {
+        observer.observe(stap);
+    });
+});
+
+
+
+document.addEventListener("DOMContentLoaded", function () {
+        const menuIcon = document.getElementById("menuIcon");
+        const navMenu = document.getElementById("navMenu");
+
+        // Toggle voor mobiele menu
+        menuIcon.addEventListener("click", function () {
+            // Voeg een klasse toe/verwijder om het menu te openen of sluiten
+            navMenu.classList.toggle("active");
+
+            if (navMenu.classList.contains("active")) {
+                // Wanneer geopend, toon het menu met animatie
+                navMenu.style.maxHeight = navMenu.scrollHeight + "px";
+                navMenu.style.opacity = 1;
+                navMenu.style.visibility = "visible";
+            } else {
+                // Wanneer gesloten, verberg het menu met animatie
+                navMenu.style.maxHeight = "0px";
+                navMenu.style.opacity = 0;
+                navMenu.style.visibility = "hidden";
+            }
+        });
+    });
+
+    </script>
+ 
+</body>
+</html>
