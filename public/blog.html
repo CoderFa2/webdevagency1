@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elite Vastgoed Web Agency</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #000000;
+            color: #ffffff;
+        }
+        .hero-text {
+            font-size: clamp(3rem, 8vw, 5rem);
+            line-height: 1.1;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+        .subtitle {
+            font-size: clamp(1rem, 3vw, 1.25rem);
+            font-weight: 300;
+            letter-spacing: 0.05em;
+        }
+        .scroll-indicator {
+            width: 30px;
+            height: 50px;
+            border: 2px solid #ffffff;
+            border-radius: 25px;
+            position: relative;
+        }
+        .scroll-indicator::before {
+            content: '';
+            position: absolute;
+            top: 8px;
+            left: 50%;
+            width: 6px;
+            height: 6px;
+            background: #ffffff;
+            border-radius: 50%;
+            transform: translateX(-50%);
+            animation: scrollDown 2s infinite;
+        }
+        @keyframes scrollDown {
+            0% { top: 8px; opacity: 0; }
+            30% { opacity: 1; }
+            60% { opacity: 1; }
+            100% { top: 32px; opacity: 0; }
+        }
+          .sticky-nav {
+            position: sticky;
+            top: 0;
+            transition: background-color 0.3s ease-in-out;
+        }
+        .sticky-nav.scrolled {
+            background-color: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+        }
+        .proces-stap {
+        opacity: 0;
+        transform: translateX(-20px);
+        transition: all 0.6s ease-out;
+    }
+    .proces-stap.visible {
+        opacity: 1;
+        transform: translateX(0);
+    }
+    .proces-stap:hover .border-l-4 {
+        border-left-width: 8px;
+        transition: border-left-width 0.3s ease;
+    }
+    .proces-stap .flex:hover .w-2 {
+        transform: scale(1.5);
+        transition: transform 0.3s ease;
+    }
+        /* Algemene styling voor de navbar */
+.navbar {
+    padding: 20px 30px;
+    z-index: 999;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* Styling voor de navigatie-items */
+.navbar ul {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    color:#1e40af;
+}
+
+.navbar ul li {
+    list-style-type: none;
+    padding: 4px 20px;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: 0.1s linear;
+    color: #1e40af;;
+}
+
+.navbar ul li a {
+    text-decoration: none;
+    color: #1e40af;/* Standaard tekstkleur */
+    font-weight: 500;
+}
+
+.navbar ul li a:hover {
+    color: #2563eb; /* Kleur bij hover */
+}
+
+/* Navigatielinks Standaard Kleur */
+.navMenu li a {
+    color: #ffffff !important; /* Witte kleur voor alle navigatielinks */
+    text-decoration: none; /* Verwijder onderstreping */
+}
+
+/* Hover Kleur voor Navigatielinks */
+.navMenu li:hover a {
+    color: #e0e0e0 !important; /* Subtiel grijs voor hover */
+    text-decoration: underline; /* Eventueel een onderstreping toevoegen bij hover voor visueel contrast */
+}
+
+/* Zorg ervoor dat de hover niet verdwijnt op kleine schermen */
+@media (max-width: 768px) {
+    .navMenu li a {
+        color: #ffffff !important; /* Zorg dat op kleine schermen het wit blijft */
+    }
+}
+
+
+/* Verbergen van het menu-icoon op grotere schermen */
+.menuIcon {
+    height: 50px;
+    display: none;
+    cursor: pointer;
+}
+
+/* Mobiele menu-styling */
+@media (max-width: 768px) {
+  .navbar ul {
+    display: none; /* Verberg het menu standaard op mobiele schermen */
+  }
+
+  .navbar ul.navMenu.active {
+    display: flex; /* Toon het menu als het actief is */
+    flex-direction: column;
+    background-color: rgba(0, 0, 0, 0.85); /* Diep zwart met een vleugje transparantie voor een stijlvolle look */
+    width: 90%; /* Zorg dat het iets minder breed is, voor een eleganter effect */
+    max-width: 400px; /* Stel een maximum breedte in voor uniformiteit */
+    position: fixed; /* Zorg ervoor dat het menu op een vaste plek blijft bij scrollen */
+    top: 70px; /* Zet het menu direct onder de navbar */
+    left: 50%; /* Plaats het horizontaal in het midden */
+    transform: translateX(-50%); /* Centreer het menu precies */
+    padding: 20px 30px; /* Gebruik een comfortabele padding */
+    border-radius: 12px; /* Geef het menu zachtere, grotere afgeronde hoeken */
+    border: 1px solid rgba(255, 255, 255, 0.2); /* Een subtiele witte rand voor een verfijnde touch */
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5); /* Geef het menu een diepere en zachtere schaduw */
+    z-index: 100; /* Zorg dat het menu altijd boven andere elementen staat */
+    transition: all 0.5s ease-in-out; /* Voeg een zachtere, langere overgang toe voor een elegante animatie */
+}
+
+.navbar ul.navMenu.active li {
+    margin: 15px 0; /* Zorg voor wat ruimte tussen de menu-items */
+    text-align: center; /* Centreer de tekst van elk menu-item */
+    transition: transform 0.3s ease; /* Voegt een lichte schaalanimatie toe bij interactie */
+}
+
+.navbar ul.navMenu li a {
+    color: #ffffff; /* Witte tekst voor duidelijkheid */
+    font-weight: 600; /* Gebruik een iets zwaardere dikte voor een premium uitstraling */
+    font-size: 1.1rem; /* Iets grotere lettergrootte voor leesbaarheid */
+    text-decoration: none; /* Verwijder onderlijnen */
+    padding: 12px 0; /* Voeg wat meer ruimte boven en onder de tekst toe */
+    border-radius: 6px; /* Maak de menu items iets ronder */
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease; /* Voeg een lichte overgang toe voor een fijnere animatie */
+}
+
+.navbar ul.navMenu li a:hover {
+    background-color: rgba(255, 255, 255, 0.1); /* Gebruik een lichte achtergrondkleur voor de hover state */
+    color: #e0e0e0; /* Gebruik een iets lichtere tint van wit voor de hover state */
+    transform: scale(1.05); /* Iets vergroten om interactie aan te geven */
+}
+
+/* Verberg de hamburger icon en menu standaard op desktop */
+@media (min-width: 769px) {
+    .menuIcon {
+        display: none;
+    }
+
+    .navMenu {
+        display: flex; /* Zorg ervoor dat het menu altijd zichtbaar is op desktop */
+        flex-direction: row;
+        background-color: transparent; /* Geen achtergrondkleur voor desktop */
+        position: static;
+        transform: none;
+        box-shadow: none;
+    }
+
+    .navMenu li {
+        margin: 0 15px; /* Extra ruimte tussen de menu-items */
+    }
+
+    .navMenu li a {
+        color: #ffffff; /* Witte kleur voor desktop */
+        font-size: 1rem; /* Normale grootte op desktop */
+    }
+
+    .navMenu li:hover a {
+        color: #f8f8f8; /* Gebruik een lichtere kleur voor hover op desktop */
+    }
+}
+
+/* Mobiele menu-styling */
+@media (max-width: 768px) {
+    .navbar ul.navMenu {
+        display: none; /* Verberg het menu standaard op mobiele schermen */
+    }
+
+    .navbar ul.navMenu.active {
+        display: flex; /* Toon het menu als het actief is */
+        flex-direction: column;
+        width: 85%; /* Iets kleinere breedte voor elegantie */
+        max-width: 350px; /* Behoud een maximale breedte voor consistentie */
+        background-color: rgba(0, 0, 0, 0.9); /* Bijna zwarte achtergrond met een vleugje transparantie */
+    }
+
+    .menuIcon {
+        display: block; /* Toon het hamburger-icoon op mobiele schermen */
+    }
+
+    .navbar ul.navMenu li a {
+        color: #ffffff; /* Witte tekstkleur voor betere leesbaarheid */
+        font-weight: 500; /* Iets dunnere stijl voor elegantie */
+    }
+
+    .navbar ul.navMenu li:hover a {
+        background-color: rgba(255, 255, 255, 0.1); /* Subtiele witte overlay voor hover */
+        transform: translateY(-2px); /* Een lichte verschuiving omhoog voor visueel accent */
+    }
+}
+
+/* Styling voor de hamburger-icoon om hem mooier te maken */
+.menuIcon {
+    width: 40px; /* Grootte aanpassen voor eleganter gevoel */
+    height: 40px; /* Zorg dat de grootte in verhouding blijft */
+    filter: brightness(0) invert(1); /* Zorg dat de kleur wit is */
+    transition: transform 0.3s ease; /* Animatie bij klikken */
+}
+
+.menuIcon:hover {
+    transform: rotate(90deg); /* Een lichte rotatie voor visuele interactie */
+}
+
+
+
+
+
+/* Verberg de hamburger icon en menu standaard op desktop */
+@media (min-width: 769px) {
+    .menuIcon {
+        display: none;
+    }
+
+    .navMenu {
+        display: flex; /* Zorg ervoor dat het menu altijd zichtbaar is op desktop */
+        flex-direction: row;
+        background-color: transparent; /* Geen achtergrondkleur voor desktop */
+        position: static;
+        transform: none;
+        box-shadow: none;
+    }
+
+    .navMenu li {
+        margin: 0 10px;
+    }
+
+    .navMenu li a {
+        color: #ffffff; /* Witte kleur voor desktop */
+    }
+
+    .navMenu li:hover a {
+        color: #cccccc; /* Gebruik een lichtere kleur voor hover op desktop */
+    }
+}
+/* Mobiele menu-styling */
+@media (max-width: 768px) {
+    .navbar ul.navMenu {
+        display: none; /* Verberg het menu standaard op mobiele schermen */
+    }
+
+    .navbar ul.navMenu.active {
+        display: flex; /* Toon het menu als het actief is */
+        flex-direction: column;
+        width: 85%; /* Iets kleinere breedte voor elegantie */
+        max-width: 350px; /* Behoud een maximale breedte voor consistentie */
+        background-color: rgba(0, 0, 0, 0.9); /* Bijna zwarte achtergrond met een vleugje transparantie */
+    }
+
+    .menuIcon {
+        display: block; /* Toon het hamburger-icoon op mobiele schermen */
+    }
+
+    .navbar ul.navMenu li a {
+        color: #ffffff; /* Witte tekstkleur voor betere leesbaarheid */
+        font-weight: 500; /* Iets dunnere stijl voor elegantie */
+    }
+
+    .navbar ul.navMenu li:hover a {
+        background-color: rgba(255, 255, 255, 0.1); /* Subtiele witte overlay voor hover */
+        transform: translateY(-2px); /* Een lichte verschuiving omhoog voor visueel accent */
+    }
+}
+
+/* Styling voor de hamburger-icoon om hem mooier te maken */
+.menuIcon {
+    width: 40px; /* Grootte aanpassen voor eleganter gevoel */
+    height: 40px; /* Zorg dat de grootte in verhouding blijft */
+    filter: brightness(0) invert(1); /* Zorg dat de kleur wit is */
+    transition: transform 0.3s ease; /* Animatie bij klikken */
+}
+
+
+
+  .navbar ul.navMenu li {
+    margin: 10px 0;
+    text-align: center;
+  }
+
+  .navbar ul.navMenu li a {
+    color: #ffffff; /* Witte tekstkleur voor betere leesbaarheid */
+  }
+
+  .navbar ul.navMenu li:hover a {
+    color: #d1d5db; /* Lichtere kleur bij hover */
+  }
+
+  .menuIcon {
+    display: block; /* Toon het hamburger-icoon op mobiele schermen */
+  }
+}
+.navMenu {
+        max-height: 0; /* Standaard verborgen */
+        overflow: hidden;
+        opacity: 0; 
+        visibility: hidden;
+        transition: all 0.5s ease-in-out;
+    }
+
+    .navMenu.active {
+        max-height: 500px; /* Ruimte genoeg voor het hele menu */
+        opacity: 1;
+        visibility: visible;
+    }
+    
+    @media (min-width: 768px) {
+        /* Voor grotere schermen moet het menu altijd zichtbaar zijn */
+        .navMenu {
+            max-height: none;
+            opacity: 1;
+            visibility: visible;
+        }
+    }
+
+      /* Media query voor kleinere schermen */
+    @media (max-width: 768px) {
+        main {
+            margin-top: -55px; /* Verminder de ruimte tussen navbar en de hero-sectie op kleine schermen */
+        }
+    }
+    </style>
+</head>
+
+
+ <!-- Navbar -->
+ <header class="z-10 ">
+    <nav class="navbar  bg-transparent flex items-center justify-between">
+        <div class="topBar flex items-center justify-between w-full md:w-auto">
+            <div class="flex justify-start -mt-4" style="margin-left: -95px;">
+                <img src="images/playstore.png" alt="Web Dev Agency Logo" class="h-24 w-64 object-contain" style="margin-left: -10px;">
+              </div>
+              
+              
+              
+              
+            <img src="" alt="menu" class="menuIcon cursor-pointer md:hidden" id="menuIcon">
+        </div>
+        <ul class="navMenu flex-col md:flex-row md:flex md:items-center hidden md:flex w-full md:w-auto" id="navMenu">
+            <li class="hover:tracking-widest my-2 md:my-0 md:mx-4">
+                <a href="index.html" class="underline-none hover:underline-offset-8 hover:underline font-medium text-sm text-gray-400">Home</a>
+            </li>
+            <li class="hover:tracking-widest my-2 md:my-0 md:mx-4">
+                <a href="diensten.html" class="underline-none hover:underline-offset-8 hover:underline font-medium text-sm text-gray-400">Diensten</a>
+            </li>
+            <li class="hover:tracking-widest my-2 md:my-0 md:mx-4">
+                <a href="prijzen.html" class="underline-none hover:underline-offset-8 hover:underline font-medium text-sm text-gray-400">Prijzen</a>
+            </li>
+            <li class="hover:tracking-widest my-2 md:my-0 md:mx-4">
+                <a href="contact.html" class="underline-none hover:underline-offset-8 hover:underline font-medium text-sm text-gray-400">Contact</a>
+            </li>
+        </ul>
+                  
+    </nav>
+
+
+
+    <main class="flex-grow flex items-center py-20 sm:py-0 pt-24">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16">
+                <div class="lg:col-span-7">
+                    <h2 class="hero-text mb-6 sm:mb-8" id="heroText">
+                        Inzichten voor Online Succes als Makelaar
+                    </h2>
+                    <p class="subtitle mb-8 sm:mb-12 max-w-2xl">
+                        Praktische tips en strategieën om uw makelaarskantoor online te laten groeien en opvallen.
+                    </p>
+                </div>
+                <div class="lg:col-span-5 flex items-end">
+                    <p class="subtitle">
+                        Van effectieve webdesigns en SEO-optimalisatie tot vastgoedmarketing op maat. Wij delen alles wat u nodig heeft om een sterke digitale aanwezigheid op te bouwen en meer leads aan te trekken.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    
+    <div class="py-6 bg-black bg-opacity-50 backdrop-blur-md">
+        <div class="container mx-auto px-4 flex flex-col items-center">
+            <div class="scroll-indicator mb-4"></div>
+            <p class="text-sm uppercase tracking-widest mb-4">Scroll voor meer</p>
+        </div>
+    </div>
+
+
+<section class="max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:px-8">
+    <h1 class="text-4xl font-bold text-center mb-12">Onze Blog</h1>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        
+        <!-- Blogpost 1 -->
+        <article class="bg-black p-6 border border-white rounded-lg shadow-lg hover:shadow-2xl transition-shadow">
+            <h2 class="text-1.5xl font-semibold text-white mb-2">Web Development voor Makelaars</h2>
+            <p class="text-gray-300 mb-4">De Sleutel tot Succes in de Digitale Wereld...</p>
+            <a href="blogpost1.html" class="text-white hover:text-white font-medium">Lees meer →</a>
+        </article>
+        
+        <!-- Blogpost 2 -->
+        <article class="bg-black p-6 border border-white rounded-lg shadow-lg hover:shadow-2xl transition-shadow">
+            <h2 class="text-1.5xl font-semibold text-white mb-2">Voordelen van Web Development voor Makelaars</h2>
+            <p class="text-gray-300 mb-4">Voordelen van Web Development  voor makelaars...</p>
+            <a href="blogpost2.html" class="text-white hover:text-white font-medium">Lees meer →</a>
+        </article>
+
+        <!-- Blogpost 3 -->
+        <article class="bg-black p-6 border border-white rounded-lg shadow-lg hover:shadow-2xl transition-shadow">
+            <h2 class="text-1.5xl font-semibold text-white mb-2">Voordelen van Web Development voor Makelaars</h2>
+            <p class="text-gray-300 mb-4">De tools die je nodig hebt in een concurrerende markt...</p>
+            <a href="blogpost3.html" class="text-white hover:text-white font-medium">Lees meer →</a>
+        </article>
+
+        <!-- Blogpost 4 -->
+        <article class="bg-black p-6 border border-white rounded-lg shadow-lg hover:shadow-2xl transition-shadow">
+            <h2 class="text-1.5xl font-semibold text-white mb-2">Waarom Responsief Ontwerp Essentieel is voor Makelaars</h2>
+            <p class="text-gray-300 mb-4">Bereik meer klanten en verhoog je SEO...</p>
+            <a href="blogpost4.html" class="text-white hover:text-white font-medium">Lees meer →</a>
+        </article>
+
+        <!-- Blogpost 5 -->
+        <article class="bg-black p-6 border border-white rounded-lg shadow-lg hover:shadow-2xl transition-shadow">
+            <h2 class="text-1.5xl font-semibold text-white mb-2">Technische SEO voor Websites</h2>
+            <p class="text-gray-300 mb-4">De basis van een sterke online aanwezigheid...</p>
+            <a href="blogpost5.html" class="text-white hover:text-white font-medium">Lees meer →</a>
+        </article>
+
+        <!-- Blogpost 6 -->
+        <article class="bg-black p-6 border border-white rounded-lg shadow-lg hover:shadow-2xl transition-shadow">
+            <h2 class="text-1.5xl font-semibold text-white mb-2">Basisprincipes van Lokale SEO voor Makelaars</h2>
+            <p class="text-gray-300 mb-4">Hoe je online meer zichtbaarheid en klanten krijgt...</p>
+            <a href="blogpost6.html" class="text-white  hover:text-white font-medium">Lees meer →</a>
+        </article>
+
+        <!-- Blogpost 7 -->
+        <article class="bg-black p-6 border border-white rounded-lg shadow-lg hover:shadow-2xl transition-shadow">
+            <h2 class="text-1.5xl font-semibold text-white mb-2">Het Belang van Zoekwoordenonderzoek voor Makelaars</h2>
+            <p class="text-gray-300 mb-4">Zichtbaarheid en relevantie voor nieuwe leads...</p>
+            <a href="blogpost7.html" class="text-white hover:text-white font-medium">Lees meer →</a>
+        </article>
+
+      <!-- Blogpost 8 -->
+      <article class="bg-black p-6 border border-white rounded-lg shadow-lg hover:shadow-2xl transition-shadow">
+        <h2 class="text-1.5xl font-semibold text-white mb-2">On-Page SEO Technieken voor Makelaarswebsites</h2>
+        <p class="text-gray-300 mb-4">Een gids voor optimaal vindbare pagina’s...</p>
+        <a href="blogpost8.html" class="text-white hover:text-white font-medium">Lees meer →</a>
+    </article>
+
+    </div>
+</section>
+
+
+<script>
+    // Animatie voor Hero tekst
+    gsap.from(".hero-text", {
+        duration: 1.5,
+        opacity: 0,
+        y: 50,
+        ease: "power3.out"
+    });
+</script>
+</body>
+</html>
