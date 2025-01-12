@@ -3,35 +3,35 @@
     <!-- Homepage -->
     <url>
         <loc>https://webdevagency.nl/</loc>
-        <lastmod>2025-01-05</lastmod>
+        <lastmod>2025-01-12</lastmod>
         <priority>1.0</priority>
     </url>
     
     <!-- Dienstenpagina -->
     <url>
-        <loc>https://webdevagency.nl/diensten.html</loc>
-        <lastmod>2025-01-05</lastmod>
+        <loc>https://webdevagency.nl/diensten</loc>
+        <lastmod>2025-01-12</lastmod>
         <priority>0.8</priority>
     </url>
 
     <!-- Wat kun je verwachten -->
     <url>
-        <loc>https://webdevagency.nl/verwachting.html</loc>
-        <lastmod>2025-01-05</lastmod>
+        <loc>https://webdevagency.nl/verwachting</loc>
+        <lastmod>2025-01-12</lastmod>
         <priority>0.7</priority>
     </url>
 
     <!-- Contactpagina -->
     <url>
-        <loc>https://webdevagency.nl/contact.html</loc>
-        <lastmod>2025-01-05</lastmod>
+        <loc>https://webdevagency.nl/contact</loc>
+        <lastmod>2025-01-12</lastmod>
         <priority>0.8</priority>
     </url>
     
     <!-- Blogs -->
     <url>
-        <loc>https://webdevagency.nl/blog.html</loc>
-        <lastmod>2025-01-05</lastmod>
+        <loc>https://webdevagency.nl/blog</loc>
+        <lastmod>2025-01-12</lastmod>
         <priority>0.6</priority>
     </url>
 </urlset>
